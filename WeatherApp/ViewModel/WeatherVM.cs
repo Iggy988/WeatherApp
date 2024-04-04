@@ -47,7 +47,31 @@ public class WeatherVM : INotifyPropertyChanged
         }
     }
 
+    public WeatherVM()
+    {
+        //if this is true it means that we are not currently running app - we are in design mode
+        // necde se prikazati podaci kad pokrenemo app, ali ce se prikazati u design modu
+        if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+        {
+            SelectedCity = new City
+            {
+                LocalizedName = "New York"
+            };
 
+            CurrentConditions = new CurrentConditions
+            {
+                WeatherText = "Partly cloudy",
+                Temperature = new Temperature
+                {
+                    Metric = new Units
+                    {
+                        Value = 21
+                    }
+                }
+            };
+        }
+       
+    }
 
 
     public event PropertyChangedEventHandler? PropertyChanged;

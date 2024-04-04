@@ -7,6 +7,9 @@
         xmlns:vm="clr-namespace:WeatherApp.ViewModel"
         mc:Ignorable="d"
         Title="WeatherWindow" Height="600" Width="400">
+    <Window.DataContext>
+        <vm:WeatherVM/>
+    </Window.DataContext>
     <Window.Resources>
         <vm:WeatherVM x:Key="vm"/>
     </Window.Resources>
