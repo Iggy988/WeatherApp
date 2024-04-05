@@ -55,7 +55,7 @@ public class WeatherVM : INotifyPropertyChanged
         {
             SelectedCity = new City
             {
-                LocalizedName = "New York"
+                LocalizedName = "Belgrade"
             };
 
             CurrentConditions = new CurrentConditions
