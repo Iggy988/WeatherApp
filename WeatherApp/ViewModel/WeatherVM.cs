@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Model;
+using WeatherApp.ViewModel.Helpers;
 
 namespace WeatherApp.ViewModel;
 public class WeatherVM : INotifyPropertyChanged
@@ -71,6 +72,11 @@ public class WeatherVM : INotifyPropertyChanged
             };
         }
        
+    }
+
+    public async void MakeQuery()
+    {
+        var cities = await AccuWeatherHelper.GetCities(Query);
     }
 
 
