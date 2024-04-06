@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ public class WeatherVM : INotifyPropertyChanged
         }
     }
 
-    
+    public ObservableCollection<City> Cities { get; set; }
 
     private CurrentConditions _currentConditions;
 
@@ -78,12 +79,21 @@ public class WeatherVM : INotifyPropertyChanged
         }
 
         SearchCommand = new SearchCommand(this); //this -instance of current class
+
+        Cities = new ObservableCollection<City>();
        
     }
 
     public async void MakeQuery()
     {
         var cities = await AccuWeatherHelper.GetCities(Query);
+        // first to ensure, that every time we call GetCities method, Cities collection is cleared
+        Cities.Clear();
+        
+        foreach (City city in cities)
+        {
+            Cities.Add(city);
+        }
     }
 
 
