@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Model;
+using WeatherApp.ViewModel.Commands;
 using WeatherApp.ViewModel.Helpers;
 
 namespace WeatherApp.ViewModel;
@@ -20,9 +21,11 @@ public class WeatherVM : INotifyPropertyChanged
         { 
             query = value;
             // calling event, that will update anyone who subscribes to it, leting them know this property "Query" has changed
-            OnPropertyChanged(nameof(Query));
+            OnPropertyChanged("Query");
         }
     }
+
+    
 
     private CurrentConditions _currentConditions;
 
@@ -32,7 +35,7 @@ public class WeatherVM : INotifyPropertyChanged
         set 
         {
             _currentConditions = value;
-            OnPropertyChanged(nameof(CurrentConditions));
+            OnPropertyChanged("CurrentConditions");
         }
     }
 
@@ -47,6 +50,8 @@ public class WeatherVM : INotifyPropertyChanged
             OnPropertyChanged("SelectedCity");
         }
     }
+
+    public SearchCommand SearchCommand { get; set; }
 
     public WeatherVM()
     {
@@ -71,6 +76,8 @@ public class WeatherVM : INotifyPropertyChanged
                 }
             };
         }
+
+        SearchCommand = new SearchCommand(this); //this -instance of current class
        
     }
 
