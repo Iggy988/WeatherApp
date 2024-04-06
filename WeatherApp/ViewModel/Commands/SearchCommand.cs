@@ -12,7 +12,12 @@ public class SearchCommand : ICommand
     public WeatherVM VM { get; set; }
 
     //when PropertyChanged event execute it will leteveryone using those properties that props are changed
-    public event EventHandler? CanExecuteChanged;
+    public event EventHandler? CanExecuteChanged
+    {
+        //add and remove value to event 
+        add { CommandManager.RequerySuggested += value; }
+        remove {  CommandManager.RequerySuggested -= value;}
+    }
 
     public SearchCommand(WeatherVM vm)
     {
@@ -21,6 +26,13 @@ public class SearchCommand : ICommand
 
     public bool CanExecute(object? parameter)
     {
+        string query = parameter as string;
+
+        //ako nema query - nije nista uneseno u polje - return false
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return false;
+        }
         return true;
     }
 
