@@ -21,6 +21,6 @@ public partial class WeatherWindow : Window
     public WeatherWindow()
     {
         InitializeComponent();
-        this.DataContext = this;
+        
     }
 }

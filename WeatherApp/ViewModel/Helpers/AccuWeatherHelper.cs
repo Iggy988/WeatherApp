@@ -23,10 +23,10 @@ public class AccuWeatherHelper
 
         string url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT, API_KEY, query);
 
-        using(HttpClient client = new HttpClient())
+        using (HttpClient client = new HttpClient())
         {
             var response = await client.GetAsync(url);
-            string json = await response.Content.ReadAsStringAsync(); 
+            string json = await response.Content.ReadAsStringAsync();
 
             cities = JsonConvert.DeserializeObject<List<City>>(json);
         }
@@ -36,7 +36,7 @@ public class AccuWeatherHelper
 
     public static async Task<CurrentConditions> GetCurrentConditions(string cityKey)
     {
-        CurrentConditions currentConditions = new CurrentConditions();
+        CurrentConditions currrentConditions = new CurrentConditions(); 
 
         string url = BASE_URL + string.Format(CURRENT_CONDITIONS_ENDPOINT, cityKey, API_KEY);
 
@@ -45,9 +45,9 @@ public class AccuWeatherHelper
             var response = await client.GetAsync(url);
             string json = await response.Content.ReadAsStringAsync();
 
-            currentConditions = (JsonConvert.DeserializeObject<List<CurrentConditions>>(json)).FirstOrDefault();
+            currrentConditions = (JsonConvert.DeserializeObject<List<CurrentConditions>>(json)).FirstOrDefault();
         }
 
-        return currentConditions;
+        return currrentConditions;
     }
 }

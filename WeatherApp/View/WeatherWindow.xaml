@@ -5,12 +5,14 @@
         xmlns:local="clr-namespace:WeatherApp.View"
         xmlns:vm="clr-namespace:WeatherApp.ViewModel"
         xmlns:Model="clr-namespace:WeatherApp.Model" 
+        xmlns:converters="clr-namespace:WeatherApp.ViewModel.ValueConverter"
         x:Class="WeatherApp.View.WeatherWindow"
         mc:Ignorable="d"
         Title="WeatherWindow" Height="600" Width="400">
 
     <Window.Resources>
         <vm:WeatherVM x:Key="vm"/>
+        <converters:BoolToRainConverter x:Key="boolToRainConverter"/>
     </Window.Resources>
 
     <Grid DataContext="{StaticResource vm}">
@@ -25,11 +27,12 @@
                     Command="{Binding SearchCommand}"
                     CommandParameter="{Binding Query}"
                     Content="Search"/>
-            <ListView>
+            <ListView ItemsSource="{Binding Cities}"
+                      SelectedValue="{Binding SelectedCity}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock/>
+                            <TextBlock Text="{Binding LocalizedName}"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -37,7 +40,7 @@
         </StackPanel>
         <Grid Grid.Row="1"
               Background="#4392f1"
-              DataContext="{Binding Path=CurrentConditions}">
+              DataContext="{Binding CurrrentConditions}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -51,6 +54,10 @@
                 <TextBlock Text="{Binding WeatherText}"
                            Foreground="#f4f4f8"
                            FontSize="18"
+                           Margin="20,0"/>
+                <TextBlock Text="{Binding HasPrecipitation, Converter={StaticResource boolToRainConverter}}"
+                           Foreground="#f4f4f8"
+                           FontSize="16"
                            Margin="20,0"/>
             </StackPanel>
             <TextBlock Grid.Column="1"

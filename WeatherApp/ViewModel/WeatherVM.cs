@@ -33,22 +33,25 @@ public class WeatherVM : INotifyPropertyChanged
     public CurrentConditions CurrentConditions
     {
         get { return _currentConditions; }
-        set 
+        set
         {
             _currentConditions = value;
             OnPropertyChanged("CurrentConditions");
         }
     }
 
-    private City _selectedCity;
+  
+
+    private City selectedCity;
 
     public City SelectedCity
     {
-        get { return _selectedCity; }
-        set 
-        { 
-            _selectedCity = value;
+        get { return selectedCity; }
+        set
+        {
+            selectedCity = value;
             OnPropertyChanged("SelectedCity");
+            GetCurrentConditions();
         }
     }
 
@@ -62,9 +65,8 @@ public class WeatherVM : INotifyPropertyChanged
         {
             SelectedCity = new City
             {
-                LocalizedName = "Belgrade"
+                LocalizedName = "New York"
             };
-
             CurrentConditions = new CurrentConditions
             {
                 WeatherText = "Partly cloudy",
@@ -72,7 +74,7 @@ public class WeatherVM : INotifyPropertyChanged
                 {
                     Metric = new Units
                     {
-                        Value = 21
+                        Value = "21"
                     }
                 }
             };
@@ -84,13 +86,21 @@ public class WeatherVM : INotifyPropertyChanged
        
     }
 
+    //this method will be executed every time whem SelectedCity changes
+    private async void GetCurrentConditions()
+    {
+        // when city is selected, clear box, and collection
+        Query = string.Empty;
+        Cities.Clear();
+        CurrentConditions = await AccuWeatherHelper.GetCurrentConditions(SelectedCity.Key);
+    }
+
     public async void MakeQuery()
     {
         var cities = await AccuWeatherHelper.GetCities(Query);
         // first to ensure, that every time we call GetCities method, Cities collection is cleared
         Cities.Clear();
-        
-        foreach (City city in cities)
+        foreach (var city in cities)
         {
             Cities.Add(city);
         }
